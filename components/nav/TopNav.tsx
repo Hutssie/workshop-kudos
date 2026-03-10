@@ -62,7 +62,7 @@ export function TopNav({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
-              href="/feed"
+              href="/"
               className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-[#5b6880] focus:ring-offset-2 rounded-lg"
             >
               <div className="w-10 h-10 bg-[#5b6880] rounded-lg flex items-center justify-center">
