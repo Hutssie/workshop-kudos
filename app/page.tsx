@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { Trophy, Heart, Award, Users } from "lucide-react";
+import { getCurrentUser } from "@/lib/session";
 
-export default function WelcomePage() {
+export default async function WelcomePage() {
+  const currentUser = await getCurrentUser();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#5b6880] via-[#3d4657] to-[#212631] flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
@@ -53,7 +56,7 @@ export default function WelcomePage() {
         </div>
 
         <Link
-          href="/login"
+          href={currentUser ? "/feed" : "/login"}
           className="bg-[#357d1c] text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-[#49a628] transition-colors shadow-lg"
         >
           Get Started
