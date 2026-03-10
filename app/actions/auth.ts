@@ -61,20 +61,23 @@ export async function signup(formData: FormData): Promise<SignupResult> {
     const passwordHash = await hashPassword(password as string);
 
     let avatarUrl: string | null = null;
-    if (avatar instanceof File && avatar.size > 0) {
-      // On Vercel/serverless we can't write to the filesystem; skip avatar save.
-      if (!process.env.VERCEL) {
-        try {
-          avatarUrl = await saveAvatarFile(avatar);
-        } catch (err) {
-          return {
-            success: false,
-            fieldErrors: {
-              avatar:
-                err instanceof Error ? err.message : "Failed to save image.",
-            },
-          };
-        }
+    // Only attempt avatar upload when running in a Node environment locally.
+    if (
+      !process.env.VERCEL &&
+      typeof File !== "undefined" &&
+      avatar instanceof File &&
+      avatar.size > 0
+    ) {
+      try {
+        avatarUrl = await saveAvatarFile(avatar);
+      } catch (err) {
+        return {
+          success: false,
+          fieldErrors: {
+            avatar:
+              err instanceof Error ? err.message : "Failed to save image.",
+          },
+        };
       }
     }
 
