@@ -28,7 +28,7 @@ export async function getKudosFeed(
   if (kudosIds.length === 0) return [];
 
   let allLikes: { kudosId: string; teamMemberId: string }[] = [];
-  let commentCounts: { kudosId: string; count: number }[] = [];
+  let commentCounts: { kudosId: string; count: bigint }[] = [];
 
   try {
     [allLikes, commentCounts] = await Promise.all([
