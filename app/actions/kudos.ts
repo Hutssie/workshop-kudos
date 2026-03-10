@@ -78,7 +78,7 @@ export async function submitKudos(formData: FormData): Promise<SubmitKudosResult
 }
 
 export type UpdateKudosMessageResult =
-  | { success: true }
+  | { success: true; editedAt: string }
   | { success: false; error?: string; fieldErrors?: Record<string, string> };
 
 export async function updateKudosMessage(
@@ -120,12 +120,15 @@ export async function updateKudosMessage(
       return { success: false, error: "You can only edit kudos you gave." };
     }
 
-    await prisma.kudos.update({
+    const updated = await prisma.kudos.update({
       where: { id: kudos.id },
-      data: { message: (message as string).trim() },
+      data: {
+        message: (message as string).trim(),
+        editedAt: new Date(),
+      },
     });
     revalidatePath("/feed");
-    return { success: true };
+    return { success: true, editedAt: updated.editedAt!.toISOString() };
   } catch {
     return {
       success: false,

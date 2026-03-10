@@ -17,6 +17,7 @@ export type SerializedComment = {
   authorId: string;
   body: string;
   createdAt: string;
+  editedAt: string | null;
   author: {
     id: string;
     name: string;
@@ -75,6 +76,7 @@ export async function submitKudosComment(
         authorId: comment.authorId,
         body: comment.body,
         createdAt: comment.createdAt.toISOString(),
+        editedAt: null,
         author: {
           id: comment.author.id,
           name: comment.author.name,
@@ -99,6 +101,7 @@ export async function getKudosComments(kudosId: string): Promise<SerializedComme
     authorId: c.authorId,
     body: c.body,
     createdAt: c.createdAt.toISOString(),
+    editedAt: c.editedAt?.toISOString() ?? null,
     author: {
       id: c.author.id,
       name: c.author.name,
@@ -150,7 +153,7 @@ export async function updateKudosComment(
 
     const updated = await prisma.kudosComment.update({
       where: { id: comment.id },
-      data: { body: trimmedBody },
+      data: { body: trimmedBody, editedAt: new Date() },
       include: { author: true },
     });
 
@@ -163,6 +166,7 @@ export async function updateKudosComment(
         authorId: updated.authorId,
         body: updated.body,
         createdAt: updated.createdAt.toISOString(),
+        editedAt: updated.editedAt?.toISOString() ?? null,
         author: {
           id: updated.author.id,
           name: updated.author.name,

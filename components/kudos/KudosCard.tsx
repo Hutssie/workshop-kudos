@@ -70,6 +70,10 @@ export function KudosCard({ kudos, currentUser }: KudosCardProps) {
   );
   const [optimisticLikesCount, setOptimisticLikesCount] = useState(likesCount);
   const [displayMessage, setDisplayMessage] = useState(kudos.message);
+  const [displayEditedAt, setDisplayEditedAt] = useState<string | null>(() => {
+    const e = (kudos as { editedAt?: Date | string | null }).editedAt;
+    return e != null ? (typeof e === "string" ? e : (e as Date).toISOString()) : null;
+  });
   const [editingMessage, setEditingMessage] = useState(false);
   const [messageEdit, setMessageEdit] = useState(kudos.message);
   const [messageError, setMessageError] = useState<string | null>(null);
@@ -150,6 +154,7 @@ export function KudosCard({ kudos, currentUser }: KudosCardProps) {
       const result = await updateKudosMessage(kudos.id, formData);
       if (result.success) {
         setDisplayMessage(trimmed);
+        if ("editedAt" in result && result.editedAt) setDisplayEditedAt(result.editedAt);
         setEditingMessage(false);
         setMessageError(null);
       } else {
@@ -208,6 +213,12 @@ export function KudosCard({ kudos, currentUser }: KudosCardProps) {
           </div>
           <p className="text-sm text-[#66686c]">
             {formatRelativeTime(kudos.createdAt)}
+            {displayEditedAt && (
+              <>
+                {" · "}
+                <span>edited {formatRelativeTime(displayEditedAt)}</span>
+              </>
+            )}
           </p>
         </div>
       </div>
@@ -327,6 +338,12 @@ export function KudosCard({ kudos, currentUser }: KudosCardProps) {
                       </span>{" "}
                       <span className="text-[#66686c]">
                         {formatRelativeTime(c.createdAt)}
+                        {c.editedAt && (
+                          <>
+                            {" · "}
+                            <span>edited {formatRelativeTime(c.editedAt)}</span>
+                          </>
+                        )}
                       </span>
                       {isEditing ? (
                         <div className="mt-1 flex gap-2">

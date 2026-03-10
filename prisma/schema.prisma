@@ -42,6 +42,7 @@ model Kudos {
   category   KudosCategory
   message    String
   createdAt  DateTime     @default(now())
+  editedAt   DateTime?
   giver      TeamMember   @relation("Giver", fields: [giverId], references: [id], onDelete: Cascade)
   recipient  TeamMember   @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade)
   likes      KudosLike[]
@@ -69,6 +70,7 @@ model KudosComment {
   authorId  String
   body      String
   createdAt DateTime   @default(now())
+  editedAt  DateTime?
   kudos     Kudos      @relation(fields: [kudosId], references: [id], onDelete: Cascade)
   author    TeamMember @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
