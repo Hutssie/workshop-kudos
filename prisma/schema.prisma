@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum KudosCategory {
+  TeamPlayer
+  GreatWork
+  Helpful
+  Innovation
+  Leadership
+  PositiveAttitude
+}
+
+model TeamMember {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  displayName  String?
+  position     String?
+  passwordHash String
+  avatarUrl    String?
+  kudosGiven   Kudos[]  @relation("Giver")
+  kudosReceived Kudos[] @relation("Recipient")
+  kudosLikes   KudosLike[]
+  kudosComments KudosComment[]
+
+  @@map("team_members")
+}
+
+model Kudos {
+  id         String       @id @default(cuid())
+  giverId    String
+  recipientId String
+  category   KudosCategory
+  message    String
+  createdAt  DateTime     @default(now())
+  giver      TeamMember   @relation("Giver", fields: [giverId], references: [id], onDelete: Cascade)
+  recipient  TeamMember   @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  likes      KudosLike[]
+  comments   KudosComment[]
+
+  @@index([recipientId])
+  @@map("kudos")
+}
+
+model KudosLike {
+  id           String     @id @default(cuid())
+  kudosId      String
+  teamMemberId String
+  createdAt    DateTime   @default(now())
+  kudos        Kudos      @relation(fields: [kudosId], references: [id], onDelete: Cascade)
+  teamMember   TeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  @@unique([kudosId, teamMemberId])
+  @@map("kudos_likes")
+}
+
+model KudosComment {
+  id        String     @id @default(cuid())
+  kudosId   String
+  authorId  String
+  body      String
+  createdAt DateTime   @default(now())
+  kudos     Kudos      @relation(fields: [kudosId], references: [id], onDelete: Cascade)
+  author    TeamMember @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("kudos_comments")
+}
