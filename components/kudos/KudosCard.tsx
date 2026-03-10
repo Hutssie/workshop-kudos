@@ -2,13 +2,15 @@
 
 import { useState, useTransition } from "react";
 import type { TeamMember } from "@prisma/client";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle, Pencil } from "lucide-react";
 import { CategoryBadge } from "@/components/kudos/CategoryBadge";
 import type { FeedKudosItem, KudosWithRelations } from "@/lib/feed";
 import { toggleKudosLike } from "@/app/actions/likes";
+import { updateKudosMessage } from "@/app/actions/kudos";
 import {
   getKudosComments,
   submitKudosComment,
+  updateKudosComment,
   type SerializedComment,
 } from "@/app/actions/comments";
 
@@ -58,6 +60,8 @@ function isFeedItem(k: KudosCardKudos): k is FeedKudosItem {
   return "likesCount" in k && typeof (k as FeedKudosItem).likesCount === "number";
 }
 
+const MAX_MESSAGE_LENGTH = 500;
+
 export function KudosCard({ kudos, currentUser }: KudosCardProps) {
   const likesCount = isFeedItem(kudos) ? kudos.likesCount : 0;
   const commentsCount = isFeedItem(kudos) ? kudos.commentsCount : 0;
@@ -65,13 +69,22 @@ export function KudosCard({ kudos, currentUser }: KudosCardProps) {
     isFeedItem(kudos) ? kudos.currentUserLiked : false
   );
   const [optimisticLikesCount, setOptimisticLikesCount] = useState(likesCount);
+  const [displayMessage, setDisplayMessage] = useState(kudos.message);
+  const [editingMessage, setEditingMessage] = useState(false);
+  const [messageEdit, setMessageEdit] = useState(kudos.message);
+  const [messageError, setMessageError] = useState<string | null>(null);
   const [commentsOpen, setCommentsOpen] = useState(false);
   const [comments, setComments] = useState<SerializedComment[] | null>(null);
   const [commentBody, setCommentBody] = useState("");
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  const [commentEditBody, setCommentEditBody] = useState("");
   const [isPendingLike, startLikeTransition] = useTransition();
   const [isPendingComment, startCommentTransition] = useTransition();
+  const [isPendingMessageEdit, startMessageEditTransition] = useTransition();
+  const [isPendingCommentEdit, startCommentEditTransition] = useTransition();
 
   const giverName = kudos.giver.displayName ?? kudos.giver.name;
+  const isGiver = currentUser?.id === kudos.giverId;
   const recipientName = kudos.recipient.displayName ?? kudos.recipient.name;
   const canEngage = !!currentUser;
 
@@ -104,6 +117,68 @@ export function KudosCard({ kudos, currentUser }: KudosCardProps) {
       const result = await submitKudosComment(kudos.id, body);
       if (result.success && result.comment) {
         setComments((prev) => (prev ? [...prev, result.comment!] : [result.comment!]));
+      }
+    });
+  };
+
+  const handleStartEditMessage = () => {
+    setMessageEdit(displayMessage);
+    setMessageError(null);
+    setEditingMessage(true);
+  };
+
+  const handleCancelEditMessage = () => {
+    setEditingMessage(false);
+    setMessageEdit(displayMessage);
+    setMessageError(null);
+  };
+
+  const handleSaveMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = messageEdit.trim();
+    if (trimmed.length === 0) {
+      setMessageError("Message is required.");
+      return;
+    }
+    if (messageEdit.length > MAX_MESSAGE_LENGTH) {
+      setMessageError(`Message must be at most ${MAX_MESSAGE_LENGTH} characters.`);
+      return;
+    }
+    startMessageEditTransition(async () => {
+      const formData = new FormData();
+      formData.set("message", messageEdit);
+      const result = await updateKudosMessage(kudos.id, formData);
+      if (result.success) {
+        setDisplayMessage(trimmed);
+        setEditingMessage(false);
+        setMessageError(null);
+      } else {
+        setMessageError(result.error ?? result.fieldErrors?.message ?? "Failed to update.");
+      }
+    });
+  };
+
+  const handleStartEditComment = (c: SerializedComment) => {
+    setEditingCommentId(c.id);
+    setCommentEditBody(c.body);
+  };
+
+  const handleCancelEditComment = () => {
+    setEditingCommentId(null);
+    setCommentEditBody("");
+  };
+
+  const handleSaveComment = (commentId: string) => {
+    const trimmed = commentEditBody.trim();
+    if (trimmed.length === 0) return;
+    startCommentEditTransition(async () => {
+      const result = await updateKudosComment(commentId, trimmed);
+      if (result.success && result.comment && comments) {
+        setComments((prev) =>
+          prev ? prev.map((c) => (c.id === commentId ? result.comment! : c)) : [result.comment!]
+        );
+        setEditingCommentId(null);
+        setCommentEditBody("");
       }
     });
   };
@@ -141,7 +216,55 @@ export function KudosCard({ kudos, currentUser }: KudosCardProps) {
         <CategoryBadge category={kudos.category} className="inline-block" />
       </div>
 
-      <p className="text-[#3d4657] mb-4 leading-relaxed">{kudos.message}</p>
+      {editingMessage ? (
+        <form onSubmit={handleSaveMessage} className="mb-4">
+          <textarea
+            value={messageEdit}
+            onChange={(e) => setMessageEdit(e.target.value)}
+            rows={3}
+            maxLength={MAX_MESSAGE_LENGTH}
+            className="w-full rounded border border-[#d8d9db] px-3 py-2 text-sm text-[#212631] placeholder:text-[#8a8c91] focus:outline-none focus:ring-2 focus:ring-[#5b6880] mb-2"
+            disabled={isPendingMessageEdit}
+            aria-label="Edit kudos message"
+          />
+          {messageError && (
+            <p className="text-sm text-red-600 mb-2" role="alert">
+              {messageError}
+            </p>
+          )}
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              disabled={isPendingMessageEdit || !messageEdit.trim()}
+              className="px-3 py-1.5 rounded bg-[#5b6880] text-white text-sm font-medium hover:bg-[#4a5769] disabled:opacity-50"
+            >
+              {isPendingMessageEdit ? "Saving…" : "Save"}
+            </button>
+            <button
+              type="button"
+              onClick={handleCancelEditMessage}
+              disabled={isPendingMessageEdit}
+              className="px-3 py-1.5 rounded border border-[#d8d9db] text-[#3d4657] text-sm hover:bg-[#f0f1f3] disabled:opacity-50"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="flex items-start gap-2 mb-4 group">
+          <p className="text-[#3d4657] leading-relaxed flex-1 min-w-0">{displayMessage}</p>
+          {isGiver && (
+            <button
+              type="button"
+              onClick={handleStartEditMessage}
+              className="shrink-0 p-1 rounded text-[#8a8c91] hover:text-[#5b6880] hover:bg-[#f0f1f3] transition-colors"
+              aria-label="Edit kudos message"
+            >
+              <Pencil className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+      )}
 
       <div className="flex items-center gap-4 text-[#8a8c91]">
         <button
@@ -179,33 +302,81 @@ export function KudosCard({ kudos, currentUser }: KudosCardProps) {
             ) : comments.length === 0 ? (
               <p className="text-sm text-[#8a8c91]">No comments yet.</p>
             ) : (
-              comments.map((c) => (
-                <div
-                  key={c.id}
-                  className="flex gap-2 text-sm"
-                >
-                  {c.author.avatarUrl ? (
-                    <img
-                      src={c.author.avatarUrl}
-                      alt=""
-                      className="h-8 w-8 rounded-full object-cover shrink-0"
-                    />
-                  ) : (
-                    <AvatarPlaceholder
-                      name={c.author.displayName ?? c.author.name}
-                    />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <span className="font-medium text-[#212631]">
-                      {c.author.displayName ?? c.author.name}
-                    </span>{" "}
-                    <span className="text-[#66686c]">
-                      {formatRelativeTime(c.createdAt)}
-                    </span>
-                    <p className="text-[#3d4657] mt-0.5">{c.body}</p>
+              comments.map((c) => {
+                const isAuthor = currentUser?.id === c.authorId;
+                const isEditing = editingCommentId === c.id;
+                return (
+                  <div
+                    key={c.id}
+                    className="flex gap-2 text-sm"
+                  >
+                    {c.author.avatarUrl ? (
+                      <img
+                        src={c.author.avatarUrl}
+                        alt=""
+                        className="h-8 w-8 rounded-full object-cover shrink-0"
+                      />
+                    ) : (
+                      <AvatarPlaceholder
+                        name={c.author.displayName ?? c.author.name}
+                      />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <span className="font-medium text-[#212631]">
+                        {c.author.displayName ?? c.author.name}
+                      </span>{" "}
+                      <span className="text-[#66686c]">
+                        {formatRelativeTime(c.createdAt)}
+                      </span>
+                      {isEditing ? (
+                        <div className="mt-1 flex gap-2">
+                          <textarea
+                            value={commentEditBody}
+                            onChange={(e) => setCommentEditBody(e.target.value)}
+                            rows={2}
+                            maxLength={500}
+                            className="flex-1 rounded border border-[#d8d9db] px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b6880]"
+                            disabled={isPendingCommentEdit}
+                            aria-label="Edit comment"
+                          />
+                          <div className="flex flex-col gap-1 shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => handleSaveComment(c.id)}
+                              disabled={!commentEditBody.trim() || isPendingCommentEdit}
+                              className="px-2 py-1 rounded bg-[#5b6880] text-white text-xs font-medium hover:bg-[#4a5769] disabled:opacity-50"
+                            >
+                              {isPendingCommentEdit ? "…" : "Save"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleCancelEditComment}
+                              disabled={isPendingCommentEdit}
+                              className="px-2 py-1 rounded border border-[#d8d9db] text-xs hover:bg-[#f0f1f3]"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-start gap-1 mt-0.5">
+                          <p className="text-[#3d4657] flex-1 min-w-0">{c.body}</p>
+                          {isAuthor && (
+                            <button
+                              type="button"
+                              onClick={() => handleStartEditComment(c)}
+                              className="shrink-0 p-0.5 rounded text-[#8a8c91] hover:text-[#5b6880] hover:bg-[#f0f1f3] transition-colors"
+                              aria-label="Edit comment"
+                            >
+                              <Pencil className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
           {canEngage && (

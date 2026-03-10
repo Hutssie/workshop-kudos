@@ -1,0 +1,45 @@
+[00:00:00.607] Server  LOG     ✓ Ready in 444ms
+[00:00:00.619] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/feed. Falling back to browser navigation. {}
+[00:00:00.619] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/leaderboard. Falling back to browser navigation. {}
+[00:00:00.619] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/feed. Falling back to browser navigation. {}
+[00:00:00.619] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/feed. Falling back to browser navigation. {}
+[00:00:00.969] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:05.779] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:25.928] Server  ERROR   ⨯ Error: Module [project]/components/feed/FeedWithFilter.tsx [app-ssr] (ecmascript) was instantiated because it was required from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/leaderboard/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", METADATA_0 => "[project]/app/favicon.ico.mjs { IMAGE => \"[project]/app/favicon.ico (static in ecmascript, tag client)\" } [app-rsc] (structured image object, ecmascript, Next.js Server Component)", MODULE_1 => "[project]/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_6 => "[project]/app/leaderboard/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>, but the module factory is not available.
+[00:03:26.091] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:26.261] Browser ERROR   uncaughtError: Error: Switched to client rendering because the server rendering errored:
+
+Module [project]/components/feed/FeedWithFilter.tsx [app-ssr] (ecmascript) was instantiated because it was required from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/leaderboard/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", METADATA_0 => "[project]/app/favicon.ico.mjs { IMAGE => \"[project]/app/favicon.ico (static in ecmascript, tag client)\" } [app-rsc] (structured image object, ecmascript, Next.js Server Component)", MODULE_1 => "[project]/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_6 => "[project]/app/leaderboard/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>, but the module factory is not available.
+[00:03:28.753] Server  LOG     ✓ Compiled in 23ms
+[00:03:30.533] Server  LOG     ✓ Compiled in 21ms
+[00:03:32.825] Server  LOG     ✓ Compiled in 20ms
+[00:03:34.479] Server  LOG     ✓ Compiled in 25ms
+[00:03:36.149] Server  LOG     ✓ Compiled in 22ms
+[00:04:43.345] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:59.010] Server  LOG     ✓ Compiled in 20ms
+[00:05:01.199] Server  LOG     ✓ Compiled in 19ms
+[00:05:47.860] Server  LOG     ✓ Compiled in 32ms
+[00:06:20.113] Server  LOG     ✓ Compiled in 18ms
+[00:06:25.177] Browser ERROR   ./app/profile/page.tsx:42:44
+Parsing ecmascript source code failed
+  40 |             roleLabel={roleLabel}
+  41 |             avatarUrl={user.avatarUrl}
+> 42 |           /> - gradient cards from Figma */}
+     |                                            ^
+  43 |           <div className="grid grid-cols-3 gap-4">
+  44 |             <div className="bg-gradient-to-br from-[#d4d9e4] to-[#a6b2ca] rounded-lg p-4">
+  45 |               <div className="flex items-center gap-2 mb-2">
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[00:06:25.573] Browser ERROR   ./app/profile/page.tsx:42:44
+Parsing ecmascript source code failed
+  40 |             roleLabel={roleLabel}
+  41 |             avatarUrl={user.avatarUrl}
+> 42 |           /> - gradient cards from Figma */}
+     |                                            ^
+  43 |           <div className="grid grid-cols-3 gap-4">
+  44 |             <div className="bg-gradient-to-br from-[#d4d9e4] to-[#a6b2ca] rounded-lg p-4">
+  45 |               <div className="flex items-center gap-2 mb-2">
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[00:06:36.228] Server  LOG     ✓ Compiled in 66ms

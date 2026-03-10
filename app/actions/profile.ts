@@ -35,3 +35,36 @@ export async function updateProfileAvatar(
     };
   }
 }
+
+export type UpdateProfileInfoResult =
+  | { success: true }
+  | { success: false; error: string };
+
+export async function updateProfileInfo(
+  displayName: string | null,
+  position: string | null
+): Promise<UpdateProfileInfoResult> {
+  const user = await getCurrentUser();
+  if (!user) {
+    return { success: false, error: "You must be logged in." };
+  }
+
+  const displayNameTrimmed = displayName?.trim() ?? "";
+  const positionTrimmed = position?.trim() ?? "";
+
+  try {
+    await prisma.teamMember.update({
+      where: { id: user.id },
+      data: {
+        displayName: displayNameTrimmed || null,
+        position: positionTrimmed || null,
+      },
+    });
+    return { success: true };
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to update profile.",
+    };
+  }
+}

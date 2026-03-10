@@ -1,0 +1,95 @@
+{
+  "node": {
+    "007b86f91233611ecc1a6881424aaad20a9c3eaeb4": {
+      "workers": {
+        "app/profile/page": {
+          "moduleId": "[project]/.next-internal/server/app/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/kudos.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/likes.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/app/actions/comments.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        }
+      },
+      "layer": {
+        "app/profile/page": "action-browser"
+      },
+      "exportedName": "clearCurrentUser",
+      "filename": "app/actions/session.ts"
+    },
+    "40907c717243a88f3c16d8d3fda9adab51e9ee819a": {
+      "workers": {
+        "app/profile/page": {
+          "moduleId": "[project]/.next-internal/server/app/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/kudos.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/likes.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/app/actions/comments.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        }
+      },
+      "layer": {
+        "app/profile/page": "action-browser"
+      },
+      "exportedName": "submitKudos",
+      "filename": "app/actions/kudos.ts"
+    },
+    "40ab7a86963598877e1b28ea3d26f6a9f290c1374f": {
+      "workers": {
+        "app/profile/page": {
+          "moduleId": "[project]/.next-internal/server/app/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/kudos.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/likes.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/app/actions/comments.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateProfileAvatar",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/profile/page": "action-browser"
+      },
+      "exportedName": "updateProfileAvatar",
+      "filename": "app/actions/profile.ts"
+    },
+    "409afebbccfd31d8aa8dd6a82b5e1b2a34ae1c1c5b": {
+      "workers": {
+        "app/profile/page": {
+          "moduleId": "[project]/.next-internal/server/app/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/kudos.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/likes.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/app/actions/comments.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "toggleKudosLike",
+          "filename": "app/actions/likes.ts"
+        }
+      },
+      "layer": {
+        "app/profile/page": "action-browser"
+      },
+      "exportedName": "toggleKudosLike",
+      "filename": "app/actions/likes.ts"
+    },
+    "400cbc3b3086607f55bdd678ca8e26204f2b3e96db": {
+      "workers": {
+        "app/profile/page": {
+          "moduleId": "[project]/.next-internal/server/app/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/kudos.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/likes.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/app/actions/comments.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getKudosComments",
+          "filename": "app/actions/comments.ts"
+        }
+      },
+      "layer": {
+        "app/profile/page": "action-browser"
+      },
+      "exportedName": "getKudosComments",
+      "filename": "app/actions/comments.ts"
+    },
+    "604afa3571c0d80c9cb93223a13b15f76ba7631179": {
+      "workers": {
+        "app/profile/page": {
+          "moduleId": "[project]/.next-internal/server/app/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/kudos.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/likes.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/app/actions/comments.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "submitKudosComment",
+          "filename": "app/actions/comments.ts"
+        }
+      },
+      "layer": {
+        "app/profile/page": "action-browser"
+      },
+      "exportedName": "submitKudosComment",
+      "filename": "app/actions/comments.ts"
+    }
+  },
+  "edge": {}
+}

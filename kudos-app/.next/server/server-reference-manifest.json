@@ -1,0 +1,150 @@
+{
+  "node": {
+    "0068274bd9051b4dd1056c8e04a168c4429e8aeb28": {
+      "workers": {
+        "app/_not-found/page": {
+          "moduleId": 24162,
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        },
+        "app/feed/page": {
+          "moduleId": 59497,
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        },
+        "app/give-kudos/page": {
+          "moduleId": 12774,
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        },
+        "app/leaderboard/page": {
+          "moduleId": 81211,
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        },
+        "app/login/page": {
+          "moduleId": 66646,
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        },
+        "app/page": {
+          "moduleId": 64720,
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        },
+        "app/signup/page": {
+          "moduleId": 40697,
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        }
+      },
+      "layer": {
+        "app/_not-found/page": "action-browser",
+        "app/feed/page": "action-browser",
+        "app/give-kudos/page": "action-browser",
+        "app/leaderboard/page": "action-browser",
+        "app/login/page": "action-browser",
+        "app/page": "action-browser",
+        "app/signup/page": "action-browser"
+      },
+      "filename": "app/actions/session.ts",
+      "exportedName": "clearCurrentUser"
+    },
+    "4047caa15ca18a5ac7c189d4238e796756c050ecec": {
+      "workers": {
+        "app/_not-found/page": {
+          "moduleId": 24162,
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        },
+        "app/feed/page": {
+          "moduleId": 59497,
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        },
+        "app/give-kudos/page": {
+          "moduleId": 12774,
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        },
+        "app/leaderboard/page": {
+          "moduleId": 81211,
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        },
+        "app/login/page": {
+          "moduleId": 66646,
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        },
+        "app/page": {
+          "moduleId": 64720,
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        },
+        "app/signup/page": {
+          "moduleId": 40697,
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        }
+      },
+      "layer": {
+        "app/_not-found/page": "action-browser",
+        "app/feed/page": "action-browser",
+        "app/give-kudos/page": "action-browser",
+        "app/leaderboard/page": "action-browser",
+        "app/login/page": "action-browser",
+        "app/page": "action-browser",
+        "app/signup/page": "action-browser"
+      },
+      "filename": "app/actions/kudos.ts",
+      "exportedName": "submitKudos"
+    },
+    "402d29be8504ad819288a1bd32704dcf0e555f1270": {
+      "workers": {
+        "app/login/page": {
+          "moduleId": 66646,
+          "async": false,
+          "exportedName": "login",
+          "filename": "app/actions/session.ts"
+        }
+      },
+      "layer": {
+        "app/login/page": "action-browser"
+      },
+      "filename": "app/actions/session.ts",
+      "exportedName": "login"
+    },
+    "402d4457b15070a4896abc5b7ca02551d087dad0b1": {
+      "workers": {
+        "app/signup/page": {
+          "moduleId": 40697,
+          "async": false,
+          "exportedName": "signup",
+          "filename": "app/actions/auth.ts"
+        }
+      },
+      "layer": {
+        "app/signup/page": "action-browser"
+      },
+      "filename": "app/actions/auth.ts",
+      "exportedName": "signup"
+    }
+  },
+  "edge": {},
+  "encryptionKey": "6ShglmhK093a+1f0MG5WIzqdP5ojBsvteLd7pAkm4B4="
+}

@@ -1,0 +1,50 @@
+{
+  "node": {
+    "0068274bd9051b4dd1056c8e04a168c4429e8aeb28": {
+      "workers": {
+        "app/signup/page": {
+          "moduleId": 40697,
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        }
+      },
+      "layer": {
+        "app/signup/page": "action-browser"
+      },
+      "exportedName": "clearCurrentUser",
+      "filename": "app/actions/session.ts"
+    },
+    "4047caa15ca18a5ac7c189d4238e796756c050ecec": {
+      "workers": {
+        "app/signup/page": {
+          "moduleId": 40697,
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        }
+      },
+      "layer": {
+        "app/signup/page": "action-browser"
+      },
+      "exportedName": "submitKudos",
+      "filename": "app/actions/kudos.ts"
+    },
+    "402d4457b15070a4896abc5b7ca02551d087dad0b1": {
+      "workers": {
+        "app/signup/page": {
+          "moduleId": 40697,
+          "async": false,
+          "exportedName": "signup",
+          "filename": "app/actions/auth.ts"
+        }
+      },
+      "layer": {
+        "app/signup/page": "action-browser"
+      },
+      "exportedName": "signup",
+      "filename": "app/actions/auth.ts"
+    }
+  },
+  "edge": {}
+}

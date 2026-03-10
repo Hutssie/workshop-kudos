@@ -118,7 +118,11 @@ export async function updateKudosComment(
 ): Promise<UpdateKudosCommentResult> {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
-    return { success: false, error: "You must be logged in to edit comments." };
+    return { success: false, error: "You must be logged in to edit a comment." };
+  }
+
+  if (!commentId || typeof commentId !== "string" || !commentId.trim()) {
+    return { success: false, error: "Invalid comment." };
   }
 
   const trimmedBody = typeof body === "string" ? body.trim() : "";
@@ -133,19 +137,19 @@ export async function updateKudosComment(
   }
 
   try {
-    const existing = await prisma.kudosComment.findUnique({
-      where: { id: commentId },
+    const comment = await prisma.kudosComment.findUnique({
+      where: { id: commentId.trim() },
       include: { author: true },
     });
-    if (!existing) {
+    if (!comment) {
       return { success: false, error: "Comment not found." };
     }
-    if (existing.authorId !== currentUser.id) {
+    if (comment.authorId !== currentUser.id) {
       return { success: false, error: "You can only edit your own comments." };
     }
 
-    const comment = await prisma.kudosComment.update({
-      where: { id: commentId },
+    const updated = await prisma.kudosComment.update({
+      where: { id: comment.id },
       data: { body: trimmedBody },
       include: { author: true },
     });
@@ -154,16 +158,16 @@ export async function updateKudosComment(
     return {
       success: true,
       comment: {
-        id: comment.id,
-        kudosId: comment.kudosId,
-        authorId: comment.authorId,
-        body: comment.body,
-        createdAt: comment.createdAt.toISOString(),
+        id: updated.id,
+        kudosId: updated.kudosId,
+        authorId: updated.authorId,
+        body: updated.body,
+        createdAt: updated.createdAt.toISOString(),
         author: {
-          id: comment.author.id,
-          name: comment.author.name,
-          displayName: comment.author.displayName,
-          avatarUrl: comment.author.avatarUrl,
+          id: updated.author.id,
+          name: updated.author.name,
+          displayName: updated.author.displayName,
+          avatarUrl: updated.author.avatarUrl,
         },
       },
     };

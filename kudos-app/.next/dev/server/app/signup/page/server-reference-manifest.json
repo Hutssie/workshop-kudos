@@ -1,0 +1,50 @@
+{
+  "node": {
+    "007b86f91233611ecc1a6881424aaad20a9c3eaeb4": {
+      "workers": {
+        "app/signup/page": {
+          "moduleId": "[project]/.next-internal/server/app/signup/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/kudos.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        }
+      },
+      "layer": {
+        "app/signup/page": "action-browser"
+      },
+      "exportedName": "clearCurrentUser",
+      "filename": "app/actions/session.ts"
+    },
+    "40907c717243a88f3c16d8d3fda9adab51e9ee819a": {
+      "workers": {
+        "app/signup/page": {
+          "moduleId": "[project]/.next-internal/server/app/signup/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/kudos.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        }
+      },
+      "layer": {
+        "app/signup/page": "action-browser"
+      },
+      "exportedName": "submitKudos",
+      "filename": "app/actions/kudos.ts"
+    },
+    "407cd4f7601f3c3e8a3c3403e9a5463ff3d71d1dbc": {
+      "workers": {
+        "app/signup/page": {
+          "moduleId": "[project]/.next-internal/server/app/signup/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/kudos.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "signup",
+          "filename": "app/actions/auth.ts"
+        }
+      },
+      "layer": {
+        "app/signup/page": "action-browser"
+      },
+      "exportedName": "signup",
+      "filename": "app/actions/auth.ts"
+    }
+  },
+  "edge": {}
+}

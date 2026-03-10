@@ -1,0 +1,35 @@
+{
+  "node": {
+    "0068274bd9051b4dd1056c8e04a168c4429e8aeb28": {
+      "workers": {
+        "app/_not-found/page": {
+          "moduleId": 24162,
+          "async": false,
+          "exportedName": "clearCurrentUser",
+          "filename": "app/actions/session.ts"
+        }
+      },
+      "layer": {
+        "app/_not-found/page": "action-browser"
+      },
+      "exportedName": "clearCurrentUser",
+      "filename": "app/actions/session.ts"
+    },
+    "4047caa15ca18a5ac7c189d4238e796756c050ecec": {
+      "workers": {
+        "app/_not-found/page": {
+          "moduleId": 24162,
+          "async": false,
+          "exportedName": "submitKudos",
+          "filename": "app/actions/kudos.ts"
+        }
+      },
+      "layer": {
+        "app/_not-found/page": "action-browser"
+      },
+      "exportedName": "submitKudos",
+      "filename": "app/actions/kudos.ts"
+    }
+  },
+  "edge": {}
+}

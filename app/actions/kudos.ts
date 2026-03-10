@@ -77,17 +77,21 @@ export async function submitKudos(formData: FormData): Promise<SubmitKudosResult
   }
 }
 
-export type UpdateKudosResult =
+export type UpdateKudosMessageResult =
   | { success: true }
   | { success: false; error?: string; fieldErrors?: Record<string, string> };
 
-export async function updateKudos(
+export async function updateKudosMessage(
   kudosId: string,
   formData: FormData
-): Promise<UpdateKudosResult> {
+): Promise<UpdateKudosMessageResult> {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return { success: false, error: "You must be logged in to edit kudos." };
+  }
+
+  if (!kudosId || typeof kudosId !== "string" || !kudosId.trim()) {
+    return { success: false, error: "Invalid kudos." };
   }
 
   const message = formData.get("message");
@@ -106,22 +110,21 @@ export async function updateKudos(
   }
 
   try {
-    const existing = await prisma.kudos.findUnique({
-      where: { id: kudosId },
+    const kudos = await prisma.kudos.findUnique({
+      where: { id: kudosId.trim() },
     });
-    if (!existing) {
+    if (!kudos) {
       return { success: false, error: "Kudos not found." };
     }
-    if (existing.giverId !== currentUser.id) {
+    if (kudos.giverId !== currentUser.id) {
       return { success: false, error: "You can only edit kudos you gave." };
     }
 
     await prisma.kudos.update({
-      where: { id: kudosId },
+      where: { id: kudos.id },
       data: { message: (message as string).trim() },
     });
     revalidatePath("/feed");
-    revalidatePath("/profile");
     return { success: true };
   } catch {
     return {
