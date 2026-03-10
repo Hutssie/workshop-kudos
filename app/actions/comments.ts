@@ -107,3 +107,70 @@ export async function getKudosComments(kudosId: string): Promise<SerializedComme
     },
   }));
 }
+
+export type UpdateKudosCommentResult =
+  | { success: true; comment: SerializedComment }
+  | { success: false; error: string };
+
+export async function updateKudosComment(
+  commentId: string,
+  body: string
+): Promise<UpdateKudosCommentResult> {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return { success: false, error: "You must be logged in to edit comments." };
+  }
+
+  const trimmedBody = typeof body === "string" ? body.trim() : "";
+  if (trimmedBody.length === 0) {
+    return { success: false, error: "Comment cannot be empty." };
+  }
+  if (trimmedBody.length > MAX_COMMENT_LENGTH) {
+    return {
+      success: false,
+      error: `Comment must be at most ${MAX_COMMENT_LENGTH} characters.`,
+    };
+  }
+
+  try {
+    const existing = await prisma.kudosComment.findUnique({
+      where: { id: commentId },
+      include: { author: true },
+    });
+    if (!existing) {
+      return { success: false, error: "Comment not found." };
+    }
+    if (existing.authorId !== currentUser.id) {
+      return { success: false, error: "You can only edit your own comments." };
+    }
+
+    const comment = await prisma.kudosComment.update({
+      where: { id: commentId },
+      data: { body: trimmedBody },
+      include: { author: true },
+    });
+
+    revalidatePath("/feed");
+    return {
+      success: true,
+      comment: {
+        id: comment.id,
+        kudosId: comment.kudosId,
+        authorId: comment.authorId,
+        body: comment.body,
+        createdAt: comment.createdAt.toISOString(),
+        author: {
+          id: comment.author.id,
+          name: comment.author.name,
+          displayName: comment.author.displayName,
+          avatarUrl: comment.author.avatarUrl,
+        },
+      },
+    };
+  } catch {
+    return {
+      success: false,
+      error: "Something went wrong. Please try again.",
+    };
+  }
+}
