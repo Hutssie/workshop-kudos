@@ -21,6 +21,14 @@ export async function updateProfileAvatar(
     return { success: false, error: "Please select an image." };
   }
 
+  // On Vercel/serverless we can't write to the filesystem; avatar upload is local-only for now.
+  if (process.env.VERCEL) {
+    return {
+      success: false,
+      error: "Avatar upload is not available in this environment. Use the app locally to change your photo.",
+    };
+  }
+
   try {
     const avatarUrl = await saveAvatarFile(avatar);
     await prisma.teamMember.update({
