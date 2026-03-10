@@ -17,21 +17,7 @@ export async function updateProfileAvatar(
   }
 
   const avatar = formData.get("avatar");
-
-  // On Vercel/serverless we can't write to the filesystem; avatar upload is local-only for now.
-  if (process.env.VERCEL) {
-    return {
-      success: false,
-      error:
-        "Avatar upload is not available in this environment. Use the app locally to change your photo.",
-    };
-  }
-
-  if (
-    typeof File === "undefined" ||
-    !(avatar instanceof File) ||
-    avatar.size === 0
-  ) {
+  if (!(avatar instanceof File) || avatar.size === 0) {
     return { success: false, error: "Please select an image." };
   }
 

@@ -1,5 +1,4 @@
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { put } from "@vercel/blob";
 import { randomUUID } from "crypto";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -12,9 +11,8 @@ const EXT_BY_MIME: Record<string, string> = {
 };
 
 /**
- * Saves an uploaded avatar file to disk (local dev).
- * Returns the public URL path to serve the image (e.g. /uploads/avatars/xyz.jpg).
- * For production (e.g. Vercel), replace with Vercel Blob or S3 and return the blob URL.
+ * Uploads an avatar to Vercel Blob (works locally and on Vercel).
+ * Returns the public URL to use in <img src={url} />.
  */
 export async function saveAvatarFile(file: File): Promise<string> {
   const type = file.type;
@@ -26,15 +24,15 @@ export async function saveAvatarFile(file: File): Promise<string> {
   }
 
   const ext = EXT_BY_MIME[type] ?? ".jpg";
-  const filename = `${randomUUID()}${ext}`;
+  const filename = `avatars/${randomUUID()}${ext}`;
 
-  // public/uploads/avatars is served at /uploads/avatars
-  const uploadDir = path.join(process.cwd(), "public", "uploads", "avatars");
-  await mkdir(uploadDir, { recursive: true });
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const filePath = path.join(uploadDir, filename);
-  await writeFile(filePath, buffer);
+  const { url } = await put(filename, buffer, {
+    access: "public",
+    contentType: type,
+  });
 
-  return `/uploads/avatars/${filename}`;
+  return url;
 }

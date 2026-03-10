@@ -61,13 +61,7 @@ export async function signup(formData: FormData): Promise<SignupResult> {
     const passwordHash = await hashPassword(password as string);
 
     let avatarUrl: string | null = null;
-    // Only attempt avatar upload when running in a Node environment locally.
-    if (
-      !process.env.VERCEL &&
-      typeof File !== "undefined" &&
-      avatar instanceof File &&
-      avatar.size > 0
-    ) {
+    if (avatar instanceof File && avatar.size > 0) {
       try {
         avatarUrl = await saveAvatarFile(avatar);
       } catch (err) {
